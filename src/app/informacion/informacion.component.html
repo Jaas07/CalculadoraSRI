@@ -1,0 +1,13 @@
+ <ul> 
+    <li *ngFor="let deducible of deducibles"> 
+        <div class="card" style="width: 80rem;"> 
+        <div class="card-body"> 
+        <img src="/assets/data/vector.jpg" class="card-img-top" alt="personas"> 
+        <h5 class="card-title">{{deducible}}</h5> 
+            <p class="card-text">Los gastos personales realizados en el año por concepto de: vivienda, educación, arte y cultura, alimentación, vestimenta, turismo y salud dan derecho a una rebaja en el Impuesto a la Renta. Para el ejercicio fiscal 2023, el monto máximo de la rebaja estará dado en función de las cargas familiares que tenga la persona o si tiene o se encuentra a cargo de personas con enfermedades catastróficas.<b>{{deducible}}</b></p> 
+            <button (click)="informacion(deducible)" class="btn btn-info">Información</button>
+            <button (click)="borrarDeducible(deducible)" class="btn btn-warning">Borrar</button>
+        </div> 
+    </div> 
+    </li> 
+</ul>

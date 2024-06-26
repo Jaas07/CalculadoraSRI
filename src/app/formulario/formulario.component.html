@@ -1,0 +1,163 @@
+<!--
+<div class="container">
+    <h1 class="text-center mt-2">Formulario SRI</h1>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Ingrese la Cedula</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="ingresoAnual" class="form-label">Ingreso Anual</label>
+                    <input type="number" [formControl]="ingresoAnual" class="form-control" id="ingresoAnual">
+                    <div *ngIf="ingresoAnual.invalid && (ingresoAnual.dirty || ingresoAnual.touched)" class="alert alert-danger mt-2">
+                        Este campo es requerido<h1 class="container">Formulario SRI</h1>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="alimentacion" class="form-label">Alimentación</label>
+                    <input type="number" [formControl]="alimentacion" class="form-control" id="alimentacion" max="3809.65">
+                    <div *ngIf="alimentacion.invalid && (alimentacion.dirty || alimentacion.touched)" class="alert alert-danger mt-2">
+                        El monto debe ser numérico y menor o igual a 3809.65
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="vivienda" class="form-label">Vivienda</label>
+                    <input type="number" [formControl]="vivienda" class="form-control" id="vivienda" max="3809.65">
+                    <div *ngIf="vivienda.invalid && (vivienda.dirty || vivienda.touched)" class="alert alert-danger mt-2">
+                        El monto debe ser numérico y menor o igual a 3809.65
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="educacion" class="form-label">Educación</label>
+                    <input type="number" [formControl]="educacion" class="form-control" id="educacion" max="3809.65">
+                    <div *ngIf="educacion.invalid && (educacion.dirty || educacion.touched)" class="alert alert-danger mt-2">
+                        El monto debe ser numérico y menor o igual a 3809.65
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="vestimenta" class="form-label">Vestimenta</label>
+                    <input type="number" [formControl]="vestimenta" class="form-control" id="vestimenta" max="3809.65">
+                    <div *ngIf="vestimenta.invalid && (vestimenta.dirty || vestimenta.touched)" class="alert alert-danger mt-2">
+                        El monto debe ser numérico y menor o igual a 3809.65
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="salud" class="form-label">Salud</label>
+                    <input type="number" [formControl]="salud" class="form-control" id="salud" max="15.238.60">
+                    <div *ngIf="salud.invalid && (salud.dirty || salud.touched)" class="alert alert-danger mt-2">                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="total" class="form-label">Total de gastos: <b>{{ totalSum }}$</b></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" [disabled]="formInvalid">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <label for="" class="form-label">Ingresos</label>
+            <input type="text" class="form-control" id="baseImponible" [value]="ingresoAnual.value" disabled>
+        </div>
+
+        <div class="card-body">
+            <label for="" class="form-label">Base Imponible</label>
+            <input type="text" class="form-control" id="baseImponible" [value]="baseImponible" disabled>
+        </div>
+
+        <div class="card-body">
+            <label for="" class="form-label">Excedente</label>
+            <input type="text" class="form-control" id="baseImponible" [value]="excedenteFunc" disabled>
+        </div>
+
+        <div class="card-body">
+            <label for="" class="form-label">Valor Excedente</label>
+            <input type="text" class="form-control" id="baseImponible" [value]="porcentajeExcedente" disabled>
+        </div>
+
+        <div class="card-body">
+            <label for="" class="form-label">Impuesto a la Renta</label>
+            <input type="text" class="form-control" id="baseImponible" [value]= "impuestoRenta" disabled>
+        </div>
+
+        <button type="button" (click)="guardarDatos()" class="btn btn-success mt-2">Guardar</button>
+    </div> 
+
+    <h2 class="text-center">Json</h2>
+    <div class="card">
+        <div class="card-body">
+            <pre>{{datosRecopilados | json}}</pre>
+        </div>
+    </div>
+</div>-->
+<form (ngSubmit)="enviarFactura()">
+    <div class="form-group">
+      <h1 class="text-center text-primary">Gastos Personales</h1>
+  
+      <div class="form-group">
+        <label for="cedula" class="form-label">Cedula:</label>
+        <input type="text" class="form-control" id="cedula" name="cedula" [(ngModel)]="facturaDatos.cedula" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="ingreso" class="form-label">Ingreso:</label>
+        <input type="number" class="form-control" id="ingreso" name="ingreso" [(ngModel)]="facturaDatos.ingreso" min="0" required>
+      </div>
+      
+      <div class="form-group">
+       <label for="salud" class="form-label">Salud:</label>
+       <input type="number" class="form-control" id="salud" name="salud" [(ngModel)]="facturaDatos.salud" (ngModelChange)="validarGasto('salud')"  min="0" required>
+       <span class="input-group-text">Límite: $15238.60</span>
+
+     </div>
+     
+     <div class="form-group">
+       <label for="educacion" class="form-label">Educación:</label>
+       <input type="number" class="form-control" id="educacion" name="educacion" [(ngModel)]="facturaDatos.educacion" (ngModelChange)="validarGasto('salud')"  min="0" required>
+       <span class="input-group-text">Límite: $3809.65</span>
+     </div>
+     
+     <div class="form-group">
+       <label for="vestimenta" class="form-label">Vestimenta:</label>
+       <input type="number" class="form-control" id="vestimenta" name="vestimenta" [(ngModel)]="facturaDatos.vestimenta" (ngModelChange)="validarGasto('vestimenta')"  min="0" required>
+       <span class="input-group-text">Límite: $3809.65</span>
+     </div>
+ 
+     <div class="form-group">
+       <label for="vivienda" class="form-label">Vivienda:</label>
+       <input type="number" class="form-control" id="vivienda" name="vivienda" [(ngModel)]="facturaDatos.vivienda" (ngModelChange)="validarGasto('vivienda')"  min="0" required>
+       <span class="input-group-text">Límite: $3809.65</span>
+     </div>
+ 
+     <div class="form-group">
+       <label for="alimentacion" class="form-label">Alimentación:</label>
+       <input type="number" class="form-control" id="alimentacion" name="alimentacion" [(ngModel)]="facturaDatos.alimentacion" (ngModelChange)="validarGasto('salud')"  min="0" required>
+       <span class="input-group-text">Límite: $3809.65</span>
+     </div> 
+
+     <div class="form-group">
+      <label for="alimentacion" class="form-label">Total deducción por gastos personales: {{gastosTotales()}}</label>
+      <span class="input-group-text">Límite: $15238.60</span>
+    </div>
+    
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </div>
+  </form>
+
+  <div class="mt-5">
+    <label for="alimentacion" class="form-label">Detalle Impuesto: {{calculoImpuestos()}}</label>
+    <span class="input-group-text">Base Imponible: {{ facturaDatos.baseImponible }}</span>
+      <span class="input-group-text">Excedente: {{ facturaDatos.excedente }}</span>
+        <span class="input-group-text">Porcentaje Excedente: {{ facturaDatos.valorExcedente }}</span>
+          <span class="input-group-text">Impuesto a la renta: {{ facturaDatos.IR}}</span>
+  </div>
+  
